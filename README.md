@@ -1,12 +1,10 @@
-
-To Run the Project First install the Dependency.
-Run
-npm install
-
 ## Available Scripts
 
+To Run the Project First install the dependency, run:
+### `npm install`
+
+
 In the project directory, you can run:
-npm install
 ### `npm start`
 
 Runs the app in the development mode.<br>
