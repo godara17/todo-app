@@ -9,8 +9,6 @@ import util from './utils.js';
 import close from './close.png';
 import info from './info.jpg';
 
-import Container from 'react-bootstrap/Container';
-import ContainerFluid from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
@@ -39,7 +37,7 @@ class SideContainer extends Component {
     let keys = ["notes", "completed"];
     for (let idx in keys) {
       let modal_ele = document.getElementById(keys[idx]);
-      if (keys[idx] == this.props.screenId) {
+      if (keys[idx] === this.props.screenId) {
         modal_ele.style["background-color"] = "#f3ea9a";
       }
       else{
@@ -122,24 +120,6 @@ class Note extends Component {
     note.title = title;
     note.lastEdited = Date.parse(new Date());
     this.props.updateNote(note);
-    
-    // if (note.id == id) {
-    //   this.props.updateNote(note);
-    // } else {
-    //   this.setState({
-    //     note: note,
-    //     current_note: note.id,
-    //     showModal: this.state.showModal
-    //   });
-    // }
-    // if (note.id == id || note.id != this.state.current_note) {
-    //   this.props.updateNote(note);
-    // } else {
-    //   this.setState({
-    //     note: note,
-    //     current_note: note.id
-    //   });
-    // }
   }
 
   handleCheckboxChange(event) {
@@ -152,7 +132,7 @@ class Note extends Component {
     this.setState({
       ["showModal"]: false
     });
-    if (this.state.note.id != id) {
+    if (this.state.note.id !== id) {
       this.props.updateNote(note);
     }
   }
@@ -302,19 +282,18 @@ class MainContainer extends Component {
   updateNote(note) {
     let notes = this.state.notes;
     let current_note = note.id;
-    let found = false;
     let sortedNotes = [];
     if (!note.deleted) {
       sortedNotes.push(note);
     }
 
     for (let i in notes) {
-      if (notes[i].id != note.id) {
+      if (notes[i].id !== note.id) {
         sortedNotes.push(notes[i]);
       }
     }
 
-    if (current_note == id) {
+    if (current_note === id) {
       id++
     }
 
@@ -329,13 +308,13 @@ class MainContainer extends Component {
     let note_list = [];
     for (let idx in this.state.notes) {
       let note = this.state.notes[idx];
-      if (note.isCompleted == completed) {
+      if (note.isCompleted === completed) {
         let note_ele = <Note key={note.id} note={note} current_note={this.state.current_note} 
                               updateNote={(note)=>this.updateNote(note)}/>;
         note_list.push(note_ele);
       }
     }
-    if (completed && note_list.length == 0) {
+    if (completed && note_list.length === 0) {
       note_list.push(<CompletedMessage key={'key'}/>);
     }
     return(note_list);
@@ -343,7 +322,7 @@ class MainContainer extends Component {
 
   render() {
     let note_list = [];
-    if (this.props.screenId == 'notes') {
+    if (this.props.screenId === 'notes') {
       let emptyNote = notesModel.noteObject();
       emptyNote.id = id;
       note_list = [<Note key={emptyNote.id} note={emptyNote} current_note={this.state.current_note} 
@@ -405,37 +384,6 @@ class App extends Component {
 
 export default App;
 
-var notes = [
-  {
-    title: 'this is the note, this is the note, this is the note, this is the note, this is the note',
-    reminder: {
-      isRemind: false,
-      remindTime: null
-    },
-    alerts: [],
-    isCompleted: false,
-    lastEdited: 0
-  },
-  {
-    title: 'this is the note, this is the note, this is the note, this is the note, this is the note',
-    reminder: {
-      isRemind: false,
-      remindTime: null
-    },
-    alerts: [],
-    isCompleted: false
-  },
-  {
-    title: 'this is the note3, this is the note, this is the note, this is the note, this is the note',
-    reminder: {
-      isRemind: false,
-      remindTime: null
-    },
-    alerts: [],
-    isCompleted: true
-  }
-]
-
 var items = [
   {
     id: 'notes',
@@ -445,161 +393,4 @@ var items = [
     id: 'completed',
     name: 'Completed'
   }
-]
-
-
-// showNotes() {
-  //   let emptyNote = notesModel.noteObject();
-  //   emptyNote.id = id;
-  //   let note_list = [<Note key={emptyNote.id} note={emptyNote} updateNote={(note)=>this.updateNote(note)}/>];
-
-  //   for (let idx in this.state.notes) {
-  //     let note = this.state.notes[idx];
-  //     if (note.isCompleted == false) {
-  //       let note_ele = <Note key={note.id} note={note} updateNote={(note)=>this.updateNote(note)}/>;
-  //       note_list.push(note_ele);
-  //     }
-  //   }
-  //   return(note_list);
-  // }
-
-  // showCompleted() {
-  //   let note_list = [];
-  //   for (let idx in this.state.notes) {
-  //     let note = this.state.notes[idx];
-  //     if (note.isCompleted == true) {
-  //       let note_ele = <Note key={note.id} note={note} updateNote={(note)=>this.updateNote(note)}/>;
-  //       note_list.push(note_ele);
-  //     }
-  //   }
-  //   if (note_list.length == 0) {
-  //     note_list.push(<CompletedMessage key={'key'}/>);
-  //   }
-  //   return(note_list);
-  // }
-
-  // render() {
-  //   let divEle;
-  //   if (this.props.screenId == 'notes') {
-  //     divEle = this.showNotes();
-  //   } 
-  //   else {
-  //     divEle = this.showCompleted();
-  //   }
-
-  //   return(
-  //     <div className="custom-container">
-  //       {divEle}
-  //     </div>
-  //   );
-  // }
-
-// let emptyNote = {
-    //   title: "",
-    //   reminder: {
-    //     isRemind: false,
-    //     remindTime: null
-    //   },
-    //   alerts: [],
-    //   isCompleted: false,
-    //   lastEdited: 0
-    // }
-
-
-// class Note extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       note: this.props.note,
-//       showModal: false
-//     };
-
-//     this.handleTitleChange = this.handleTitleChange.bind(this);
-//     this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-//     this.handleNoteInfo = this.handleNoteInfo.bind(this);
-//     this.handleNoteRemove = this.handleNoteRemove.bind(this);
-//   }
-
-//   textAreaAdjust(textAreaId) {
-//     let o = document.getElementById(textAreaId);
-//     let style = getComputedStyle(o);
-//     o.style = style;
-//     o.style.height = (o.scrollHeight)+"px";
-//   }
-
-//   handleTitleChange(event) {
-//     let note = this.state.note;
-//     note.title = event.target.value;
-//     this.setState({
-//       note: note,
-//       showModal: this.state.showModal
-//     });
-//     this.textAreaAdjust(event.target.id);
-//   }
-
-//   handleCheckboxChange(event) {
-//     let note = this.state.note;
-//     note.isCompleted = event.target.checked;
-//     this.setState({
-//       note: note,
-//       showModal: this.state.showModal
-//     });
-//   }
-
-//   modalDataChange(note) {
-//     this.setState({note: note, showModal: this.state.showModal});
-//   }
-
-//   handleNoteInfo(event) {
-//     let modal_ele = document.getElementById('myModal');
-//     modal_ele.style.display = "block";
-//   }
-
-//   handleNoteRemove(event) {
-    
-//   }
-
-//   render() {
-//     let id = this.state.note.isCompleted ? "note-title-completed-" + this.state.note.id : "note-title-" + this.state.note.id;
-//     let cn = this.state.note.isCompleted ? "note-title-completed" : "note-title";
-//     let ta_ele = <textarea id={id} className={cn} placeholder="Add New Note..." value={this.state.note.title} 
-//         onChange={this.handleTitleChange}/>;
-    
-//     return(
-//       <div className='note-container'>
-//         <div className="note-col-sm note-info">
-//           <img width={30} height={30} src={info} alt="" onClick={this.handleNoteInfo}/>
-//         </div>
-//         <div className="note-col-sm note-is-completed">
-//           <input name="isCompleted" type="checkbox" checked={this.state.note.isCompleted} onChange={this.handleCheckboxChange} />
-//         </div>
-//         <div className='note-col-lg'>
-//           {ta_ele}
-//         </div>
-//         <div className="note-col-sm note-remove">
-//           <img width={30} height={30} src={close} alt="" onClick={this.handleNoteRemove}/>
-//         </div>
-//         <NoteModal note={this.state.note} onChange={(note)=>this.modalDataChange(note)}/>
-//       </div>      
-//     );
-//   }
-// }
-
-
-// render() {
-//     return (
-//       <Row>
-//         <Col lg={3} xs={12} className="app-container-side"> 
-//           <SideContainer screenId={this.state.screenId} changeScreen={(screenId)=>this.changeScreen(screenId)}/> 
-//         </Col>
-//         <Col lg={9} xs={12} className="app-container-main"> <MainContainer screenId={this.state.screenId}/> </Col>
-//       </Row>
-//     );
-//   }
-
-
-  // import Container from 'react-bootstrap/Container';
-  // import ContainerFluid from 'react-bootstrap/Container';
-  // import Row from 'react-bootstrap/Row'
-  // import Col from 'react-bootstrap/Col'
-  
+];
